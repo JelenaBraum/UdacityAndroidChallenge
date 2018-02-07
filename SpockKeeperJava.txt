@@ -1,0 +1,259 @@
+package com.jelenabraum.spockkeeper;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import java.util.Random;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    // Initializing global variables
+    int countRounds = 0;                    // number of played rounds
+    int pointsTeamST = 0;                   // Team StarTrek overall score
+    int pointsTeamSW = 0;                   // Team StarWars overall score
+    int pointsTeamSG = 0;                   // Team StarGate overall score
+    public int roundResult = 0;                    // points for each round and each match
+
+    // Changing screens
+    public void getTheGameOn(View view) {
+
+        // Clearing the screen
+        Button firstBut = findViewById(R.id.continueBut);
+        firstBut.setVisibility(View.GONE);
+        LinearLayout firstText = findViewById(R.id.galaxyText);
+        firstText.setVisibility(View.GONE);
+
+        // Displaying the new stuff
+        ScrollView newText = findViewById(R.id.newLayout);
+        newText.setVisibility(View.VISIBLE);
+        // Button secondBut = findViewById(R.id.playBut);
+        // secondBut.setVisibility(View.VISIBLE);
+        // Button thirdBut = findViewById(R.id.resetBut);
+        // thirdBut.setVisibility(View.VISIBLE);
+    }
+
+    // Starting a new round
+    public void playNextRound(View view) {
+        // rounds increase by one
+        countRounds = countRounds + 1;
+        // and display where due
+        TextView roundView = (TextView) findViewById(R.id.roundCount);
+        roundView.setText("Round " + countRounds);
+        TextView roundView1 = (TextView) findViewById(R.id.team1LastRound);
+        roundView1.setText("In round " + countRounds + ":");
+        TextView roundView2 = (TextView) findViewById(R.id.team2LastRound);
+        roundView2.setText("In round " + countRounds + ":");
+        TextView roundView3 = (TextView) findViewById(R.id.team3LastRound);
+        roundView3.setText("In round " + countRounds + ":");
+
+        // each team gets its hand gesture randomly
+        int randomST = new Random().nextInt(5) + 1;
+        int randomSW = new Random().nextInt(5) + 1;
+        int randomSG = new Random().nextInt(5) + 1;
+        String gestureST = "";
+        String gestureSW = "";
+        String gestureSG = "";
+
+        // image is displayed according to the drawn symbol
+        // team gets its hand gesture
+        ImageView imgST = (ImageView) findViewById(R.id.imgST);
+        if (randomST == 1) {
+            imgST.setImageResource(R.drawable.paper);
+            gestureST = "paper";
+        } else if (randomST == 2) {
+            imgST.setImageResource(R.drawable.rock);
+            gestureST = "rock";
+        } else if (randomST == 3) {
+            imgST.setImageResource(R.drawable.sciss);
+            gestureST = "scissors";
+        } else if (randomST == 4) {
+            imgST.setImageResource(R.drawable.lizard);
+            gestureST = "lizard";
+        } else {
+            imgST.setImageResource(R.drawable.spock);
+            gestureST = "Spock";
+        }
+        ImageView imgSW = (ImageView) findViewById(R.id.imgSW);
+        if (randomSW == 1) {
+            imgSW.setImageResource(R.drawable.paper);
+            gestureSW = "paper";
+        } else if (randomSW == 2) {
+            imgSW.setImageResource(R.drawable.rock);
+            gestureSW = "rock";
+        } else if (randomSW == 3) {
+            imgSW.setImageResource(R.drawable.sciss);
+            gestureSW = "scissors";
+        } else if (randomSW == 4) {
+            imgSW.setImageResource(R.drawable.lizard);
+            gestureSW = "lizard";
+        } else {
+            imgSW.setImageResource(R.drawable.spock);
+            gestureSW = "Spock";
+        }
+        ImageView imgSG = (ImageView) findViewById(R.id.imgSG);
+        if (randomSG == 1) {
+            imgSG.setImageResource(R.drawable.paper);
+            gestureSG = "paper";
+        } else if (randomSG == 2) {
+            imgSG.setImageResource(R.drawable.rock);
+            gestureSG = "rock";
+        } else if (randomSG == 3) {
+            imgSG.setImageResource(R.drawable.sciss);
+            gestureSG = "scissors";
+        } else if (randomSG == 4) {
+            imgSG.setImageResource(R.drawable.lizard);
+            gestureSG = "lizard";
+        } else {
+            imgSG.setImageResource(R.drawable.spock);
+            gestureSG = "Spock";
+        }
+
+        // round results (what just happened???) and points are displayed
+        TextView roundT1T2 = (TextView) findViewById(R.id.team1_team2);
+        roundT1T2.setText(gestureST + matchingVerb(gestureST,gestureSW) + gestureSW + ": " + roundResult);
+        // TextView roundT1T2points = (TextView) findViewById(R.id.team1_team2_points);
+        // roundT1T2points.setText("" + roundResult);
+        pointsTeamST = pointsTeamST + roundResult;
+
+        TextView roundT1T3 = (TextView) findViewById(R.id.team1_team3);
+        roundT1T3.setText(gestureST + matchingVerb(gestureST,gestureSG) + gestureSG + ": " + roundResult);
+        // TextView roundT1T3points = (TextView) findViewById(R.id.team1_team3_points);
+        // roundT1T3points.setText("" + roundResult);
+        pointsTeamST = pointsTeamST + roundResult;
+        TextView TP1 = (TextView) findViewById(R.id.team1_points);
+        TP1.setText("" + pointsTeamST);
+
+        TextView roundT2T1 = (TextView) findViewById(R.id.team2_team1);
+        roundT2T1.setText(gestureSW + matchingVerb(gestureSW,gestureST) + gestureST + ": " + roundResult);
+        // TextView roundT2T1points = (TextView) findViewById(R.id.team2_team1_points);
+        // roundT2T1points.setText("" + roundResult);
+        pointsTeamSW = pointsTeamSW + roundResult;
+
+        TextView roundT2T3 = (TextView) findViewById(R.id.team2_team3);
+        roundT2T3.setText(gestureSW + matchingVerb(gestureSW,gestureSG) + gestureSG + ": " + roundResult);
+        // TextView roundT2T3points = (TextView) findViewById(R.id.team2_team3_points);
+        // roundT2T3points.setText("" + roundResult);
+        pointsTeamSW = pointsTeamSW + roundResult;
+        TextView TP2 = (TextView) findViewById(R.id.team2_points);
+        TP2.setText("" + pointsTeamSW);
+
+        TextView roundT3T1 = (TextView) findViewById(R.id.team3_team1);
+        roundT3T1.setText(gestureSG + matchingVerb(gestureSG,gestureST) + gestureST + ": " + roundResult);
+        // TextView roundT3T1points = (TextView) findViewById(R.id.team3_team1_points);
+        // roundT3T1points.setText("" + roundResult);
+        pointsTeamSG = pointsTeamSG + roundResult;
+
+        TextView roundT3T2 = (TextView) findViewById(R.id.team3_team2);
+        roundT3T2.setText(gestureSG + matchingVerb(gestureSG,gestureSW) + gestureSW + ": " + roundResult);
+        // TextView roundT3T2points = (TextView) findViewById(R.id.team3_team2_points);
+        // roundT3T2points.setText("" + roundResult);
+        pointsTeamSG = pointsTeamSG + roundResult;
+        TextView TP3 = (TextView) findViewById(R.id.team3_points);
+        TP3.setText("" + pointsTeamSG);
+
+    }
+
+    // Resetting the whole game
+    public void resetAll(View view) {
+        // Resetting images
+        ImageView imgST = (ImageView) findViewById(R.id.imgST);
+        imgST.setImageResource(R.drawable.start);
+        ImageView imgSW = (ImageView) findViewById(R.id.imgSW);
+        imgSW.setImageResource(R.drawable.start);
+        ImageView imgSG = (ImageView) findViewById(R.id.imgSG);
+        imgSG.setImageResource(R.drawable.start);
+
+        // Resetting round counts
+        countRounds = 0;
+        TextView roundView = (TextView) findViewById(R.id.roundCount);
+        roundView.setText("Round " + countRounds);
+        TextView roundView1 = (TextView) findViewById(R.id.team1LastRound);
+        roundView1.setText("Round " + countRounds);
+        TextView roundView2 = (TextView) findViewById(R.id.team2LastRound);
+        roundView2.setText("Round " + countRounds);
+        TextView roundView3 = (TextView) findViewById(R.id.team3LastRound);
+        roundView3.setText("Round " + countRounds);
+        pointsTeamST = 0;                   // Team StarTrek overall score
+        pointsTeamSW = 0;                   // Team StarWars overall score
+        pointsTeamSG = 0;                   // Team StarGate overall score
+        roundResult = 0;
+
+        // zeroing result fields
+        TextView roundT1T2 = (TextView) findViewById(R.id.team1_team2);
+        roundT1T2.setText("nothing done yet");
+        // TextView roundT1T2points = (TextView) findViewById(R.id.team1_team2_points);
+        // roundT1T2points.setText("0");
+        TextView roundT1T3 = (TextView) findViewById(R.id.team1_team3);
+        roundT1T3.setText("nothing done yet");
+        // TextView roundT1T3points = (TextView) findViewById(R.id.team1_team3_points);
+        // roundT1T3points.setText("0");
+        TextView TP1 = (TextView) findViewById(R.id.team1_points);
+        TP1.setText("0");
+
+        TextView roundT2T1 = (TextView) findViewById(R.id.team2_team1);
+        roundT2T1.setText("nothing done yet");
+        // TextView roundT2T1points = (TextView) findViewById(R.id.team2_team1_points);
+        // roundT2T1points.setText("0");
+        TextView roundT2T3 = (TextView) findViewById(R.id.team2_team3);
+        roundT2T3.setText("nothing done yet");
+        // TextView roundT2T3points = (TextView) findViewById(R.id.team2_team3_points);
+        // roundT2T3points.setText("0");
+        TextView TP2 = (TextView) findViewById(R.id.team2_points);
+        TP2.setText("0");
+
+        TextView roundT3T1 = (TextView) findViewById(R.id.team3_team1);
+        roundT3T1.setText("nothing done yet");
+        // TextView roundT3T1points = (TextView) findViewById(R.id.team3_team1_points);
+        // roundT3T1points.setText("0");
+        TextView roundT3T2 = (TextView) findViewById(R.id.team3_team2);
+        roundT3T2.setText("nothing done yet");
+        // TextView roundT3T2points = (TextView) findViewById(R.id.team3_team2_points);
+        // roundT3T2points.setText("0");
+        TextView TP3 = (TextView) findViewById(R.id.team3_points);
+        TP3.setText("0");
+
+    }
+
+    // matching verbs get chosen, round result global is updated
+    public String matchingVerb(String teamA, String teamB) {
+    String verb = "";
+        if(teamA == teamB) { verb = " draws with "; roundResult = 0;
+        } else if ((teamA == "scissors")&&(teamB == "paper")) { verb = " cut "; roundResult = 1;
+        } else if ((teamA == "scissors")&&(teamB == "lizard")) { verb = " decapitate "; roundResult = 1;
+        } else if ((teamA == "scissors")&&(teamB == "Spock")) { verb = " get smashed by "; roundResult = -1;
+        } else if ((teamA == "scissors")&&(teamB == "rock")) { verb = " get crushed by "; roundResult = -1;
+        } else if ((teamA == "paper")&&(teamB == "rock")) { verb = " covers "; roundResult = 1;
+        } else if ((teamA == "paper")&&(teamB == "Spock")) { verb = " disproves "; roundResult = 1;
+        } else if ((teamA == "paper")&&(teamB == "lizard")) { verb = " gets eaten by "; roundResult = -1;
+        } else if ((teamA == "paper")&&(teamB == "scissors")) { verb = " gets cut by "; roundResult = -1;
+        } else if ((teamA == "rock")&&(teamB == "lizard")) { verb = " crushes "; roundResult = 1;
+        } else if ((teamA == "rock")&&(teamB == "scissors")) { verb = " crushes "; roundResult = 1;
+        } else if ((teamA == "rock")&&(teamB == "paper")) { verb = " gets covered by "; roundResult = -1;
+        } else if ((teamA == "rock")&&(teamB == "Spock")) { verb = " gets vaporized by "; roundResult = -1;
+        } else if ((teamA == "lizard")&&(teamB == "Spock")) { verb = " poisons "; roundResult = 1;
+        } else if ((teamA == "lizard")&&(teamB == "paper")) { verb = " eats "; roundResult = 1;
+        } else if ((teamA == "lizard")&&(teamB == "scissors")) { verb = " gets decapitated by "; roundResult = -1;
+        } else if ((teamA == "lizard")&&(teamB == "rock")) { verb = " gets crushed by "; roundResult = -1;
+        } else if ((teamA == "Spock")&&(teamB == "scissors")) { verb = " smashes "; roundResult = 1;
+        } else if ((teamA == "Spock")&&(teamB == "rock")) { verb = " vaporizes "; roundResult = 1;
+        } else if ((teamA == "Spock")&&(teamB == "lizard")) { verb = " gets poisoned by "; roundResult = -1;
+        } else if ((teamA == "Spock")&&(teamB == "paper")) { verb = " gets disproved by "; roundResult = -1;
+        } else { verb = " ??? "; roundResult = 0;
+        }
+        return verb;
+    }
+
+
+}
